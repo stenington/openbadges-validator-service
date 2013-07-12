@@ -6,10 +6,29 @@ const stdout = process.stdout;
 const stderr = process.stderr;
 
 const gelfStream = require('gelf-stream');
+const optimist = require('optimist');
 
-const GRAYLOG_HOST = process.env['GRAYLOG_HOST'] || 'localhost';
-const GRAYLOG_PORT = process.env['GRAYLOG_PORT'] || 12201;
-const GRAYLOG_FACILITY = process.env['GRAYLOG_FACILITY'];
+var argv = optimist
+  .usage('Send log output to Loggins.\nUsage: $0 [opts]')
+  .describe('g', 'Overrides env["GRAYLOG_HOST"]')
+  .alias('g', 'host')
+  .describe('p', 'Overrides env["GRAYLOG_PORT"]')
+  .alias('p', 'port')
+  .describe('f', 'Overrides env["GRAYLOG_FACILITY"]')
+  .alias('f', 'facility')
+  .boolean('h')
+  .describe('h', 'Print this help statement')
+  .alias('h', 'help')
+  .argv;
+
+if (argv.h) {
+  optimist.showHelp();
+  process.exit(0);
+}
+
+const GRAYLOG_HOST = argv.host || process.env['GRAYLOG_HOST'] || 'localhost';
+const GRAYLOG_PORT = argv.port || process.env['GRAYLOG_PORT'] || 12201;
+const GRAYLOG_FACILITY = argv.facility || process.env['GRAYLOG_FACILITY'];
 
 const logStream = gelfStream.forBunyan(GRAYLOG_HOST, GRAYLOG_PORT);
 logStream.on('error', function (err) {
