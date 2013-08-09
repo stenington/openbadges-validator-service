@@ -9,16 +9,8 @@ module.exports = function() {
   this.World = require('../support/world').World;
 
   this.Before(function(callback) {
-    var world = this;
-    var app = require('../../').app.build({
-      logLevel: 'fatal'
-    });
-    app.listen(0, function() {
-      var server = this;
-      world.url = function(path) {
-        return url.resolve('http://localhost:' + server.address().port, path);
-      };
-      var host = world.url('');
+    this.runApp(function(){
+      var host = this.url('');
       ASSERTIONS['0.5.0 assertion'] = JSON.stringify(examples.validOldAssertion(host));
       ASSERTIONS['1.0.0 assertion'] = JSON.stringify(examples.validAssertion(host));
       ASSERTIONS['1.0.0 signature'] = JSON.stringify(examples.validSignature(host));
