@@ -1,22 +1,32 @@
 var zombie = require('zombie');
 var url = require('url');
 
+const VALIDATOR_EXTERNAL_URL = process.env['ACCEPTANCE_EXTERNAL_URL'];
+
 exports.World = function World(callback) {
   var self = this;
 
   self.browser = new zombie();
 
-  self.runApp = function(callback){
-    var app = require('../../').app.build({
-      logLevel: 'fatal'
-    });
-    app.listen(0, function(){
-      var server = this;
-      self.url = function(path) {
-        return url.resolve('http://localhost:' + server.address().port, path);
-      };
+  self.url = function(path) {
+    return url.resolve(this.baseUrl, path);
+  };
+
+  self.setup = function(callback){
+    if (VALIDATOR_EXTERNAL_URL) {
+      self.baseUrl = VALIDATOR_EXTERNAL_URL;
       callback.call(self);
-    });
+    }
+    else {
+      var app = require('../../').app.build({
+        logLevel: 'fatal'
+      });
+      app.listen(0, function(){
+        var server = this;
+        self.baseUrl = 'http://localhost:' + server.address().port;
+        callback.call(self);
+      });
+    }
   };
 
   callback();

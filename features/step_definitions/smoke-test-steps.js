@@ -9,7 +9,7 @@ module.exports = function() {
   this.World = require('../support/world').World;
 
   this.Before(function(callback) {
-    this.runApp(function(){
+    this.setup(function(){
       var host = this.url('');
       ASSERTIONS['0.5.0 assertion'] = JSON.stringify(examples.validOldAssertion(host));
       ASSERTIONS['1.0.0 assertion'] = JSON.stringify(examples.validAssertion(host));

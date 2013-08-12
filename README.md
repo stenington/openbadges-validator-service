@@ -20,6 +20,15 @@ Then visit http://localhost:8888.
   `newrelic.js`, if you want to integrate with
   [New Relic][].
 
+# Acceptance Tests
+
+Acceptance tests are automatically run with `npm test`. Their behavior
+can be changed by the following environment variables:
+
+* `ACCEPTANCE_EXTERNAL_URL` lets you provide an external URL to run
+the acceptance tests against. If left empty, an instance is run on
+`localhost` and tests run against that. 
+
 # Test Coverage
 
 Build/install [jscoverage][], run `make test-cov`, then open
