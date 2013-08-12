@@ -16,14 +16,12 @@ var CUCUMBER_EXTERNAL_URL = process.env.ACCEPTANCE_EXTERNAL_URL;
 
 process.on('uncaughtException', function(err) {
   console.error(err.stack);
-  support.Phantom.stopAll();
   support.servers.stopAll(function() {
     process.exit(1);
   });
 });
 
 process.on('exit', function() {
-  support.Phantom.stopAll();
   support.servers.stopAll(function() {});
 });
 
