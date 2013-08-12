@@ -22,8 +22,12 @@ Then visit http://localhost:8888.
 
 # Acceptance Tests
 
-Acceptance tests are automatically run with `npm test`. Their behavior
-can be changed by the following environment variables:
+Acceptance tests are automatically run with `npm test`. They run
+headlessly in [zombie][]. Their behavior can be changed by the following 
+environment variables:
+
+* `ACCEPTANCE_DEBUG` represents a boolean value. If it exists, logging
+  output will be displayed that makes the tests easier to debug.
 
 * `ACCEPTANCE_EXTERNAL_URL` lets you provide an external URL to run
 the acceptance tests against. If left empty, an instance is run on
@@ -41,3 +45,4 @@ MPL 2.0
   [openbadges-validator]: https://github.com/mozilla/openbadges-validator
   [New Relic]: http://newrelic.com/
   [jscoverage]: https://github.com/visionmedia/node-jscoverage
+  [zombie]: http://zombie.labnotes.org/
